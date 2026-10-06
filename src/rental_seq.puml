@@ -27,6 +27,8 @@ Email -> Renter: send payment failure email
 end
 else rejected
 Staff --> Website: rejected
+Website -> Email: request rejection email
+Email -> Renter: send rejection email
 end
 
 @enduml

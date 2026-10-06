@@ -1,1 +1,2 @@
-Assumption: When the request from the school is denied, there is no confirmation email sent to the renter.
+Assumption: The website has a list of available facilities and if a requested facility is not available, it will display
+somewhere on the web page that the selected facility is not available.
