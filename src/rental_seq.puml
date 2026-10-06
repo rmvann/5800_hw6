@@ -1,0 +1,32 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+title School Facility Rental - Sequence
+actor Renter
+participant Website
+participant "School Staff" as Staff
+participant "Payment Service" as Pay
+participant "Email Service" as Email
+Renter -> Website: submit request
+Website -> Staff: send request for review
+alt approved
+Staff --> Website: approved
+Website -> Pay: process payment
+Pay -> Renter: send payment request
+Renter --> Pay: send payment
+alt successful
+Pay --> Website: success
+Website -> Email: request confirmation email
+Email -> Renter: send confirmation email
+else failed
+Pay --> Website: fail
+Website -> Email: request payment failure email
+Email -> Renter: send payment failure email
+end
+else rejected
+Staff --> Website: rejected
+end
+
+@enduml

@@ -1,37 +1,44 @@
 @startuml
 'https://plantuml.com/activity-diagram-beta
 
+title School Facility Rental - Activity
+|Renter|
 start
-:ClickServlet.handleRequest();
-:new page;
-if (Page.onSecurityCheck) then (true)
-  :Page.onInit();
-  if (isForward?) then (no)
-    :Process controls;
-    if (continue processing?) then (no)
-      stop
+:Choose facility, date, event;
+|Website|
+:Check availability;
+if (available?) then (yes)
+    |Renter|
+    :Enter contact information;
+    :Submit request;
+    |Website|
+    :Create request;
+    |School Staff|
+    :Review request;
+    if (approved?) then (approved)
+        |Renter|
+        :Send Payment;
+        if (succeeds?) then (success)
+            |Website|
+            :Save booking;
+            :Send confirmation email;
+            stop
+        else (fail)
+            |Website|
+            :Record payment failure;
+            :Send payment failure email;
+            stop
+        endif
+    else (rejected)
+        |Website|
+        :Send rejection email;
+        stop
     endif
-
-    if (isPost?) then (yes)
-      :Page.onPost();
-    else (no)
-      :Page.onGet();
-    endif
-    :Page.onRender();
-  endif
-else (false)
+else (no)
+    |Website|
+    :Show not available;
+    stop
 endif
-
-if (do redirect?) then (yes)
-  :redirect process;
-else
-  if (do forward?) then (yes)
-    :Forward request;
-  else (no)
-    :Render page template;
-  endif
-endif
-
-stop
+|School Staff|
 
 @enduml
